@@ -1,0 +1,74 @@
+name: Autograding Tests
+'on':
+- workflow_dispatch
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: make_compile_test
+      id: make_compile_test
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: make_compile_test
+        setup-command: ''
+        command: make clean test
+        timeout: 10
+    - name: clkGen.vcd
+      id: clkgen-vcd
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: clkGen.vcd
+        setup-command: ''
+        command: ls -l results/clkGen.vcd
+        timeout: 10
+    - name: counter.vcd
+      id: counter-vcd
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: counter.vcd
+        setup-command: ''
+        command: ls -l results/counter.vcd
+        timeout: 10
+    - name: clkDiv.vcd
+      id: clkdiv-vcd
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: clkDiv.vcd
+        setup-command: ''
+        command: ls -l results/clkDiv.vcd
+        timeout: 10
+    - name: clkDivCounter.vcd
+      id: clkdivcounter-vcd
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: clkDivCounter.vcd
+        setup-command: ''
+        command: ls -l results/clkDivCounter.vcd
+        timeout: 10
+    - name: countersim.cpp
+      id: countersim-cpp
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: countersim.cpp
+        setup-command: ''
+        command: ls -l src/countersim.cpp
+        timeout: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        MAKE_COMPILE_TEST_RESULTS: "${{steps.make_compile_test.outputs.result}}"
+        CLKGEN-VCD_RESULTS: "${{steps.clkgen-vcd.outputs.result}}"
+        COUNTER-VCD_RESULTS: "${{steps.counter-vcd.outputs.result}}"
+        CLKDIV-VCD_RESULTS: "${{steps.clkdiv-vcd.outputs.result}}"
+        CLKDIVCOUNTER-VCD_RESULTS: "${{steps.clkdivcounter-vcd.outputs.result}}"
+        COUNTERSIM-CPP_RESULTS: "${{steps.countersim-cpp.outputs.result}}"
+      with:
+        runners: make_compile_test,clkgen-vcd,counter-vcd,clkdiv-vcd,clkdivcounter-vcd,countersim-cpp
