@@ -11,10 +11,10 @@ TARGET_DIR = /Users/baibhavpathak/Documents/Development/hw1-pathakbaibhav/bin
 TARGET = $(TARGET_DIR)/countersim
 
 # Source files
-SRCS = $(wildcard $(SRC_DIR)/*.cpp)
+SRCS = $(SRC_DIR)/countersim.cpp $(SRC_DIR)/simengine.cpp
 
 # Object files
-OBJS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
+OBJS = $(OBJ_DIR)/countersim.o $(OBJ_DIR)/simengine.o
 
 # Default target: build the executable
 all: $(TARGET)
