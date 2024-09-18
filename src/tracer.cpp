@@ -12,7 +12,7 @@ Tracer::Tracer(bool &clkWire, Simulator &simulator)
     HeadPtr head = makeVCDHeader(TimeScale::ONE, TimeScaleUnit::ns, utils::now());
 
     // Initialize the VCD writer to create the .vcd file in the results directory
-    writer = std::make_unique<VCDWriter>("/Users/baibhavpathak/Documents/Development/hw1-pathakbaibhav/results/trace_dump.vcd", head);
+    writer = std::make_unique<VCDWriter>("/Users/baibhavpathak/Documents/Development/hw1-pathakbaibhav/results/clkGen.vcd", head);
 
     // Register the clock signal in the VCD writer
     counter_var = writer->register_var("Tracer", "wire", VariableType::wire, 1);
