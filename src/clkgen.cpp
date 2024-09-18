@@ -1,13 +1,14 @@
 #include "clkgen.h"
 
-// Constructor for the ClkGen class
-ClkGen::ClkGen(bool &clkWire) : myClk(clkWire) 
+ClkGen::ClkGen(bool &clkWire, Simulator &simulator)
+    : myClk(clkWire), sim(simulator)
 {
-    myClk = false;  // Initialize clock signal to low
+    // Initialize the clock signal to false
+    myClk = false;
 }
 
-// The cycle method toggles the clock signal on each cycle
-void ClkGen::cycle() 
+void ClkGen::cycle()
 {
-    myClk = !myClk;  // Toggle the clock signal
+    // Toggle the clock signal on each cycle
+    myClk = !myClk;
 }

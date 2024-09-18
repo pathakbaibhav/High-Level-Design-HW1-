@@ -1,32 +1,26 @@
-#include <iostream>
 #include "simengine.h"
 #include "clkgen.h"
+#include "tracer.h"
 
-using namespace std;
-
-//Global Instance of the Simulator Class
 Simulator sim;
 
-// Main Function
-int main()
-{
-    //Intial state of the clock signal
-    bool myClk = false;
-    unsigned int run_time;
+int main() {
+    bool clkWire = false;  // Clock signal for the simulation
 
-    // Create a clock generator and pass the clock signal (myClk)
-    ClkGen clkgen(myClk);
+    // Create the clock generator and tracer modules, passing clkWire by reference
+    ClkGen clkGen(clkWire, sim);   // Pass the reference of clkWire
+    Tracer tracer(clkWire, sim);   // Pass the reference of clkWire
 
-    //Register the clock generator with the simulator
-    sim.module_register(&clkgen);
+    // Register both modules with the simulator
+    sim.module_register(&clkGen);
+    sim.module_register(&tracer);
 
-    //Maximum Simulation Time
+    // Run the simulation for 100 cycles
     sim.time_max_set(100);
+    sim.run();
 
-    run_time = sim.run();
-    
-    cout << "Simulation finished at time: " << run_time - 1 << endl;
-    cout << "Final State of clock: " << myClk << endl;
+    // Finalize and close the VCD file
+    tracer.finalize();
 
     return 0;
 }

@@ -1,18 +1,15 @@
-#ifndef CLKGEN_H
-#define CLKGEN_H
+#pragma once
+#include "simengine.h"
 
-#include "simengine.h"  // Include the simulation engine header
-
-class ClkGen : public MyModule 
-{
-    bool &myClk;  // Reference to the wire (bool) that will be toggled
-
+class ClkGen : public MyModule {
 public:
-    // Constructor that initializes ClkGen with a reference to a bool (the "wire")
-    ClkGen(bool &clkWire);
+    // Constructor takes a reference to the clock wire and the simulator
+    ClkGen(bool &clkWire, Simulator &simulator);
 
-    // The cycle method will be called on each clock cycle by the Simulator
+    // Override the cycle function
     void cycle() override;
-};
 
-#endif // CLKGEN_H
+private:
+    bool &myClk;  // Reference to the clock signal
+    Simulator &sim;  // Reference to the simulator
+};
