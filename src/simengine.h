@@ -1,3 +1,6 @@
+#ifndef SIMENGINE_H  // Start of include guard
+#define SIMENGINE_H
+
 #include <bitset>
 
 /** max number of modules in simulation */
@@ -45,3 +48,4 @@ class Simulator {
         unsigned int module_register(MyModule *pModule);
 };
 
+#endif // SIMENGINE_H  // End of include guard
