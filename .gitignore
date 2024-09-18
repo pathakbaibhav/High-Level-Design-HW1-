@@ -35,3 +35,6 @@
 
 *.vscode\
 *.json
+
+#Ignore the cloned VCD Writer Directory
+/vcd-writer/
