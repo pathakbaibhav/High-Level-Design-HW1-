@@ -1,37 +1,33 @@
-#include <bitset>
 #include "tracer.h"
-#include <filesystem>
-#include <iostream>  // For debugging
+#include <bitset>
 
-using namespace vcd;
+Tracer::Tracer(bool &clk, unsigned int &cnt, Simulator &sim)
+    : MyModule(), myClk(clk), myCount(cnt), sim(sim) {  // Ensure sim is properly initialized
 
-Tracer::Tracer(bool &clkWire, Simulator &simulator)
-    : myClk(clkWire), writer(nullptr), sim(simulator)
-{
-    // Create the VCD header
-    HeadPtr head = makeVCDHeader(TimeScale::ONE, TimeScaleUnit::ns, utils::now());
+    // Create a dummy or default HeadPtr (you can customize this if more details are needed)
+    vcd::HeadPtr header = nullptr;
 
-    // Initialize the VCD writer to create the .vcd file in the results directory
-    writer = std::make_unique<VCDWriter>("/Users/baibhavpathak/Documents/Development/hw1-pathakbaibhav/results/clkGen.vcd", head);
+    // Initialize the VCD writer with a filename and the default header
+    writer = std::make_unique<vcd::VCDWriter>("results/counter.vcd", header);
 
-    // Register the clock signal in the VCD writer
-    counter_var = writer->register_var("Tracer", "wire", VariableType::wire, 1);
+    // Register the clock and counter variables in the VCD file
+    vcdVarClk = writer->register_var("Main", "clk", vcd::VariableType::wire, 1);
+    vcdVarCnt = writer->register_var("Main", "myCnt", vcd::VariableType::wire, 8);
 }
 
-void Tracer::cycle()
-{
-    // Write the current clock value to the VCD file at the current simulation time
-    writer->change(counter_var, sim.time_get(), std::bitset<1>(myClk).to_string());
+void Tracer::cycle() {
+    // Use sim.time_get() to get the current simulation time
+    writer->change(vcdVarClk, sim.time_get(), myClk ? "1" : "0");
+
+    // Trace the counter value in the VCD file
+    writer->change(vcdVarCnt, sim.time_get(), std::bitset<8>(myCount).to_string());
 }
 
-void Tracer::finalize()
-{
-    if (writer) {
-        writer->close();  // Ensure the VCDWriter file is closed
-    }
+void Tracer::finalize() {
+    // Finalize the VCD tracing and close the file
+    writer->close();
 }
 
-Tracer::~Tracer()
-{
-    finalize();  // Call finalize on destruction
+Tracer::~Tracer() {
+    // Destructor for clean-up (if necessary)
 }

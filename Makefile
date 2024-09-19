@@ -14,10 +14,10 @@ LIB_DIR = /Users/baibhavpathak/Documents/Development/hw1-pathakbaibhav/lib
 TARGET = $(TARGET_DIR)/countersim
 
 # Source files
-SRCS = $(SRC_DIR)/countersim.cpp $(SRC_DIR)/simengine.cpp $(SRC_DIR)/clkgen.cpp $(SRC_DIR)/tracer.cpp
+SRCS = $(SRC_DIR)/countersim.cpp $(SRC_DIR)/simengine.cpp $(SRC_DIR)/clkgen.cpp $(SRC_DIR)/tracer.cpp $(SRC_DIR)/counter.cpp
 
 # Object files
-OBJS = $(OBJ_DIR)/countersim.o $(OBJ_DIR)/simengine.o $(OBJ_DIR)/clkgen.o $(OBJ_DIR)/tracer.o
+OBJS = $(OBJ_DIR)/countersim.o $(OBJ_DIR)/simengine.o $(OBJ_DIR)/clkgen.o $(OBJ_DIR)/tracer.o $(OBJ_DIR)/counter.o
 
 # GitHub repository for VCD Writer
 VCD_REPO = https://github.com/favorart/vcd-writer.git
@@ -52,7 +52,6 @@ $(LIB_DIR)/libvcdwriter.so: $(VCD_DIR) $(LIB_DIR)
 # Link the object files to create the final executable, adding -rpath for runtime library search path
 $(TARGET): $(TARGET_DIR) $(RESULTS_DIR) $(LIB_DIR)/libvcdwriter.so $(OBJS)
 	$(CC) $(CFLAGS) -I$(VCD_DIR)/include -L$(LIB_DIR) -o $(TARGET) $(OBJS) -lvcdwriter -Wl,-rpath,$(LIB_DIR)
-	# Use install_name_tool to permanently set the correct library path for libvcdwriter.so
 	install_name_tool -change build/libvcdwriter.so $(LIB_DIR)/libvcdwriter.so $(TARGET)
 
 # Rule to compile each .cpp file into its corresponding .o file

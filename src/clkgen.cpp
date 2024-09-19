@@ -1,7 +1,6 @@
 #include "clkgen.h"
 
-ClkGen::ClkGen(bool &clkWire, Simulator &simulator)
-    : myClk(clkWire), sim(simulator)
+ClkGen::ClkGen(bool &clkWire, Simulator &simulator) : myClk(clkWire), sim(simulator)
 {
     // Initialize the clock signal to false
     myClk = false;

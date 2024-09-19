@@ -5,8 +5,8 @@
 
 class Tracer : public MyModule {
 public:
-    // Constructor that takes a reference to the clock signal and simulator
-    Tracer(bool &clkWire, Simulator &simulator);
+    // Constructor that takes a reference to the clock signal, counter, and simulator
+    Tracer(bool &clkWire, unsigned int &cnt, Simulator &simulator);
 
     // Override the cycle function
     void cycle() override;
@@ -18,7 +18,9 @@ public:
 
 private:
     bool &myClk;  // Reference to the clock signal
-    std::unique_ptr<vcd::VCDWriter> writer;  // VCD writer
-    vcd::VarPtr counter_var;  // Variable for clock in VCD
-    Simulator &sim;  // Reference to the simulator
+    unsigned int &myCount;  // Reference to the counter
+    std::unique_ptr<vcd::VCDWriter> writer;  // VCD writer for tracing
+    vcd::VarPtr vcdVarClk;  // Variable for clock in VCD
+    vcd::VarPtr vcdVarCnt;  // Variable for counter in VCD
+    Simulator &sim;  // Reference to the simulator, which will be initialized in the constructor
 };
