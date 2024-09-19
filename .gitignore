@@ -38,3 +38,4 @@
 
 #Ignore the cloned VCD Writer Directory
 /vcd-writer/
+./bin/
