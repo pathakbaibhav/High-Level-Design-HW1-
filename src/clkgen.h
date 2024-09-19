@@ -1,7 +1,7 @@
 #pragma once
 #include "simengine.h"
-
-class ClkGen : public MyModule {
+class ClkGen : public MyModule 
+{
 public:
     // Constructor takes a reference to the clock wire and the simulator
     ClkGen(bool &clkWire, Simulator &simulator);

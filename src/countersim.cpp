@@ -2,22 +2,23 @@
 #include "clkgen.h"
 #include "tracer.h"
 #include "counter.h"
-#include <iostream>  // For printing the counter value
+#include <iostream>
 
 Simulator sim;
 
-int main() {
-    bool clkWire = false;   // Clock signal for the simulation
-    unsigned int count = 0; // Counter Variable
+int main() 
+{
+    bool clkWire = false;                       // Clock signal for the simulation
+    unsigned int count = 0;                     // Counter Variable
 
     // Create the clock generator, counter, and tracer modules, passing references
     ClkGen clkGen(clkWire, sim);
     Counter counter(clkWire, count, sim);
-    Tracer tracer(clkWire, count, sim);   // Pass clkWire, count, and sim
+    Tracer tracer(clkWire, count, sim);         // Pass clkWire, count, and sim
 
     // Register the modules with the simulator
     sim.module_register(&clkGen);
-    sim.module_register(&counter);  // Register the counter module
+    sim.module_register(&counter);              // Register the counter module
     sim.module_register(&tracer);
 
     // Run the simulation for 100 cycles

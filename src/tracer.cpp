@@ -1,9 +1,8 @@
 #include "tracer.h"
 #include <bitset>
 
-Tracer::Tracer(bool &clk, unsigned int &cnt, Simulator &sim)
-    : MyModule(), myClk(clk), myCount(cnt), sim(sim) {  // Ensure sim is properly initialized
-
+Tracer::Tracer(bool &clk, unsigned int &cnt, Simulator &sim) : MyModule(), myClk(clk), myCount(cnt), sim(sim) 
+{
     // Create a dummy or default HeadPtr (you can customize this if more details are needed)
     vcd::HeadPtr header = nullptr;
 
@@ -15,7 +14,8 @@ Tracer::Tracer(bool &clk, unsigned int &cnt, Simulator &sim)
     vcdVarCnt = writer->register_var("Main", "myCnt", vcd::VariableType::wire, 8);
 }
 
-void Tracer::cycle() {
+void Tracer::cycle() 
+{
     // Use sim.time_get() to get the current simulation time
     writer->change(vcdVarClk, sim.time_get(), myClk ? "1" : "0");
 
@@ -23,11 +23,13 @@ void Tracer::cycle() {
     writer->change(vcdVarCnt, sim.time_get(), std::bitset<8>(myCount).to_string());
 }
 
-void Tracer::finalize() {
+void Tracer::finalize() 
+{
     // Finalize the VCD tracing and close the file
     writer->close();
 }
 
-Tracer::~Tracer() {
+Tracer::~Tracer() 
+{
     // Destructor for clean-up (if necessary)
 }
