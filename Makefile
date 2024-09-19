@@ -48,6 +48,7 @@ $(LIB_DIR)/libvcdwriter.so: $(VCD_DIR) $(LIB_DIR)
 	@echo "Building VCD Writer project..."
 	cd $(VCD_DIR) && make
 	cp $(VCD_DIR)/build/libvcdwriter.so $(LIB_DIR)/
+	cp $(VCD_DIR)/build/libvcdwriter.a $(LIB_DIR)/
 
 # Link the object files to create the final executable, adding -rpath for runtime library search path
 $(TARGET): $(TARGET_DIR) $(RESULTS_DIR) $(LIB_DIR)/libvcdwriter.so $(OBJS)

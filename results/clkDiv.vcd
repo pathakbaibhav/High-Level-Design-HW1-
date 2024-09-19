@@ -1,5 +1,5 @@
 $timescale 1 ns $end
-$date 2024-09-19 00:28:02 $end
+$date 2024-09-19 01:12:47 $end
 $scope module Main $end
 $var wire 1 0 myClkDiv $end
 $upscope $end
