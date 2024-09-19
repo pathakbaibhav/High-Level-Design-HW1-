@@ -1,35 +1,54 @@
 #include "tracer.h"
-#include <bitset>
+#include <iostream>
 
-Tracer::Tracer(bool &clk, unsigned int &cnt, Simulator &sim) : MyModule(), myClk(clk), myCount(cnt), sim(sim) 
+Tracer::Tracer(bool &clk, bool &clkDiv, unsigned int &cnt, Simulator &sim, const std::string &fileType)
+    : myClk(clk), myClkDiv(clkDiv), myCount(cnt), sim(sim), fileType(fileType)
 {
-    // Create a dummy or default HeadPtr (you can customize this if more details are needed)
     vcd::HeadPtr header = nullptr;
 
-    // Initialize the VCD writer with a filename and the default header
-    writer = std::make_unique<vcd::VCDWriter>("results/counter.vcd", header);
-
-    // Register the clock and counter variables in the VCD file
-    vcdVarClk = writer->register_var("Main", "clk", vcd::VariableType::wire, 1);
-    vcdVarCnt = writer->register_var("Main", "myCnt", vcd::VariableType::wire, 8);
+    // Create a new VCDWriter for each fileType and register the appropriate signals
+    if (fileType == "clkGen") {
+        writer = std::make_unique<vcd::VCDWriter>("results/clkGen.vcd", header);
+        vcdVarClk = writer->register_var("Main", "clk", vcd::VariableType::wire, 1);
+    } 
+    else if (fileType == "counter") {
+        writer = std::make_unique<vcd::VCDWriter>("results/counter.vcd", header);
+        vcdVarClk = writer->register_var("Main", "clk", vcd::VariableType::wire, 1);
+        vcdVarCnt = writer->register_var("Main", "myCnt", vcd::VariableType::wire, 8);
+    } 
+    else if (fileType == "clkDiv") {
+        writer = std::make_unique<vcd::VCDWriter>("results/clkDiv.vcd", header);
+        vcdVarClkDiv = writer->register_var("Main", "myClkDiv", vcd::VariableType::wire, 1);
+    } 
+    else if (fileType == "clkDivCounter") {
+        writer = std::make_unique<vcd::VCDWriter>("results/clkDivCounter.vcd", header);
+        vcdVarClk = writer->register_var("Main", "clk", vcd::VariableType::wire, 1);
+        vcdVarClkDiv = writer->register_var("Main", "myClkDiv", vcd::VariableType::wire, 1);
+        vcdVarCnt = writer->register_var("Main", "myCnt", vcd::VariableType::wire, 8);
+    }
 }
 
 void Tracer::cycle() 
 {
-    // Use sim.time_get() to get the current simulation time
-    writer->change(vcdVarClk, sim.time_get(), myClk ? "1" : "0");
-
-    // Trace the counter value in the VCD file
-    writer->change(vcdVarCnt, sim.time_get(), std::bitset<8>(myCount).to_string());
+    // Record changes to the appropriate signals in the VCD file based on fileType
+    if (fileType == "clkGen" || fileType == "clkDivCounter") {
+        writer->change(vcdVarClk, sim.time_get(), myClk ? "1" : "0");
+    }
+    if (fileType == "counter" || fileType == "clkDivCounter") {
+        writer->change(vcdVarCnt, sim.time_get(), std::bitset<8>(myCount).to_string());
+    }
+    if (fileType == "clkDiv" || fileType == "clkDivCounter") {
+        writer->change(vcdVarClkDiv, sim.time_get(), myClkDiv ? "1" : "0");
+    }
 }
 
 void Tracer::finalize() 
 {
-    // Finalize the VCD tracing and close the file
+    // Close the VCD file
     writer->close();
 }
 
 Tracer::~Tracer() 
 {
-    // Destructor for clean-up (if necessary)
+    // Destructor for clean-up
 }

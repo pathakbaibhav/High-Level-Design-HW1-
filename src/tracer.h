@@ -6,22 +6,23 @@
 class Tracer : public MyModule 
 {
 public:
-    // Constructor that takes a reference to the clock signal, counter, and simulator
-    Tracer(bool &clkWire, unsigned int &cnt, Simulator &simulator);
+    // Constructor with parameters for the clk, clkDiv, count, and file type
+    Tracer(bool &clkWire, bool &clkDivWire, unsigned int &cnt, Simulator &sim, const std::string &fileType);
 
-    // Override the cycle function
     void cycle() override;
 
-    // Finalize function to close the VCD file
-    void finalize();
+    void finalize(); // Close the VCD file when the simulation finishes
 
-    ~Tracer();                                  // Destructor
+    ~Tracer(); // Destructor
 
 private:
-    bool &myClk;                                // Reference to the clock signal
-    unsigned int &myCount;                      // Reference to the counter
-    std::unique_ptr<vcd::VCDWriter> writer;     // VCD writer for tracing
-    vcd::VarPtr vcdVarClk;                      // Variable for clock in VCD
-    vcd::VarPtr vcdVarCnt;                      // Variable for counter in VCD
-    Simulator &sim;                             // Reference to the simulator, which will be initialized in the constructor
+    bool &myClk;               // Reference to the clock signal
+    bool &myClkDiv;            // Reference to the divided clock signal
+    unsigned int &myCount;     // Counter variable
+    std::unique_ptr<vcd::VCDWriter> writer;  // VCD writer for tracing
+    vcd::VarPtr vcdVarClk;     // Variable for clock in VCD
+    vcd::VarPtr vcdVarClkDiv;  // Variable for divided clock in VCD
+    vcd::VarPtr vcdVarCnt;     // Variable for counter in VCD
+    std::string fileType;      // Determines which VCD file to write to
+    Simulator &sim;            // Reference to the simulator
 };

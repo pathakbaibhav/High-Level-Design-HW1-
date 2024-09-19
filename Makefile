@@ -13,11 +13,11 @@ LIB_DIR = /Users/baibhavpathak/Documents/Development/hw1-pathakbaibhav/lib
 # Target executable name
 TARGET = $(TARGET_DIR)/countersim
 
-# Source files
-SRCS = $(SRC_DIR)/countersim.cpp $(SRC_DIR)/simengine.cpp $(SRC_DIR)/clkgen.cpp $(SRC_DIR)/tracer.cpp $(SRC_DIR)/counter.cpp
+# Source files (added clkdiv.cpp)
+SRCS = $(SRC_DIR)/countersim.cpp $(SRC_DIR)/simengine.cpp $(SRC_DIR)/clkgen.cpp $(SRC_DIR)/tracer.cpp $(SRC_DIR)/counter.cpp $(SRC_DIR)/clkdiv.cpp
 
-# Object files
-OBJS = $(OBJ_DIR)/countersim.o $(OBJ_DIR)/simengine.o $(OBJ_DIR)/clkgen.o $(OBJ_DIR)/tracer.o $(OBJ_DIR)/counter.o
+# Object files (added clkdiv.o)
+OBJS = $(OBJ_DIR)/countersim.o $(OBJ_DIR)/simengine.o $(OBJ_DIR)/clkgen.o $(OBJ_DIR)/tracer.o $(OBJ_DIR)/counter.o $(OBJ_DIR)/clkdiv.o
 
 # GitHub repository for VCD Writer
 VCD_REPO = https://github.com/favorart/vcd-writer.git
