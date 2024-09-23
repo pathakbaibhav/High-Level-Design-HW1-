@@ -2,21 +2,21 @@
 CC = g++
 CFLAGS = -Wall -g -std=c++17 -fpermissive
 
-# Directories (with spaces in paths handled by quotes)
-SRC_DIR = /Users/baibhavpathak/Documents/Development/hw1-pathakbaibhav/src
-OBJ_DIR = /Users/baibhavpathak/Documents/Development/hw1-pathakbaibhav/obj
-TARGET_DIR = /Users/baibhavpathak/Documents/Development/hw1-pathakbaibhav/bin
-VCD_DIR = /Users/baibhavpathak/Documents/Development/hw1-pathakbaibhav/vcd-writer
-RESULTS_DIR = /Users/baibhavpathak/Documents/Development/hw1-pathakbaibhav/results
-LIB_DIR = /Users/baibhavpathak/Documents/Development/hw1-pathakbaibhav/lib
+# Directories (now using relative paths)
+SRC_DIR = ./src
+OBJ_DIR = ./obj
+TARGET_DIR = ./bin
+VCD_DIR = ./vcd-writer
+RESULTS_DIR = ./results
+LIB_DIR = ./lib
 
 # Target executable name
 TARGET = $(TARGET_DIR)/countersim
 
-# Source files (added clkdiv.cpp)
+# Source files
 SRCS = $(SRC_DIR)/countersim.cpp $(SRC_DIR)/simengine.cpp $(SRC_DIR)/clkgen.cpp $(SRC_DIR)/tracer.cpp $(SRC_DIR)/counter.cpp $(SRC_DIR)/clkdiv.cpp
 
-# Object files (added clkdiv.o)
+# Object files
 OBJS = $(OBJ_DIR)/countersim.o $(OBJ_DIR)/simengine.o $(OBJ_DIR)/clkgen.o $(OBJ_DIR)/tracer.o $(OBJ_DIR)/counter.o $(OBJ_DIR)/clkdiv.o
 
 # GitHub repository for VCD Writer
@@ -38,7 +38,7 @@ $(RESULTS_DIR):
 $(LIB_DIR):
 	mkdir -p $(LIB_DIR)
 
-# Rule to clone the VCD writer repository if it doesn't exist
+# Rule to clone the VCD writer repository if it doesn’t exist
 $(VCD_DIR):
 	@echo "Cloning VCD Writer repository..."
 	[ -d $(VCD_DIR) ] || git clone $(VCD_REPO) $(VCD_DIR)
